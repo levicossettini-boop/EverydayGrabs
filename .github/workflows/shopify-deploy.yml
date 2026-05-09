@@ -25,10 +25,12 @@ jobs:
 
       - name: Push theme to Shopify
         working-directory: "./Shopify theme.md"
+        env:
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_SECRET }}
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE_URL }}
+          CI: "1"
         run: |
           shopify theme push \
             --path=. \
-            --store="${{ secrets.SHOPIFY_STORE_URL }}" \
-            --password="${{ secrets.SHOPIFY_SECRET }}" \
             --theme="${{ secrets.SHOPIFY_THEME_ID }}" \
             --allow-live
