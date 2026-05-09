@@ -1,0 +1,411 @@
+{%- assign product = section.settings.product -%}
+{%- assign has_product = product != null -%}
+
+{%- style -%}
+  .landing-page {
+    color: inherit;
+  }
+
+  .landing-page__hero {
+    padding: 5rem 0 3rem;
+  }
+
+  .landing-page__hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .landing-page__hero-eyebrow,
+  .landing-page__trust-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    color: rgba(var(--color-foreground), 0.75);
+  }
+
+  .landing-page__hero-heading {
+    margin: 0;
+    max-width: 680px;
+  }
+
+  .landing-page__hero-copy {
+    margin: 1.5rem 0 2rem;
+    max-width: 620px;
+  }
+
+  .landing-page__hero-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 0.75rem;
+  }
+
+  .landing-page__hero-media {
+    display: grid;
+    justify-items: center;
+    position: relative;
+  }
+
+  .landing-page__hero-media img {
+    width: min(100%, 560px);
+    border-radius: 2rem;
+    object-fit: cover;
+  }
+
+  .landing-page__trust {
+    margin: 2rem 0 4rem;
+    padding: 1.5rem 0;
+  }
+
+  .landing-page__trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .landing-page__trust-card {
+    border-radius: 1.5rem;
+    background: rgba(var(--color-background) / 0.92);
+    padding: 1.5rem;
+    text-align: center;
+    min-height: 128px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+
+  .landing-page__trust-card strong {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  .landing-page__product {
+    padding: 3rem 0;
+  }
+
+  .landing-page__product-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .landing-page__product-media img {
+    width: 100%;
+    border-radius: 1.75rem;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
+  .landing-page__product-copy {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .landing-page__product-copy h2 {
+    margin: 0;
+  }
+
+  .landing-page__price-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  .landing-page__compare-price {
+    text-decoration: line-through;
+    opacity: 0.65;
+  }
+
+  .landing-page__features {
+    display: grid;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .landing-page__feature-card {
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+    background: rgba(var(--color-background) / 0.92);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.05);
+  }
+
+  .landing-page__feature-card strong {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .landing-page__testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .landing-page__testimonial-card {
+    border-radius: 1.75rem;
+    padding: 1.75rem;
+    background: rgba(var(--color-background) / 0.94);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.05);
+  }
+
+  .landing-page__faq {
+    display: grid;
+    gap: 1rem;
+    margin: 2rem 0 4rem;
+  }
+
+  .landing-page__faq details {
+    border-radius: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(var(--color-background) / 0.92);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  }
+
+  .landing-page__faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  @media screen and (max-width: 990px) {
+    .landing-page__hero-grid,
+    .landing-page__product-grid,
+    .landing-page__trust-grid,
+    .landing-page__testimonial-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .landing-page__hero-buttons {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .landing-page__hero {
+      padding-top: 3rem;
+    }
+
+    .landing-page__hero-copy {
+      font-size: 1rem;
+    }
+  }
+{%- endstyle -%}
+
+<section class="landing-page">
+  <div class="page-width landing-page__hero">
+    <div class="landing-page__hero-grid">
+      <div>
+        <span class="landing-page__hero-eyebrow">Everydaygrabs</span>
+        <h1 class="landing-page__hero-heading">The desk for when you don't feel like sitting at a desk.</h1>
+        <p class="landing-page__hero-copy">Ergonomic, foldable, and built for your ultimate comfort. Work, eat, or watch from the comfort of your bed without overheating your laptop.</p>
+        <div class="landing-page__hero-buttons">
+          <a href="#ProductInfo-landing_page" class="button button--primary">Get Yours — Shop Now</a>
+          <a href="#faq" class="button button--secondary">See FAQs</a>
+        </div>
+      </div>
+      <div class="landing-page__hero-media">
+        {%- if section.settings.hero_image != blank -%}
+          {{ section.settings.hero_image | image_url: width: 1600, format: 'webp' | image_tag: alt: 'Pop Out Bed Desk in use', loading: 'eager' }}
+        {%- else -%}
+          <div class="placeholder-media" style="width:100%;min-height:360px;border-radius:1.75rem;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:rgba(0,0,0,0.35);">Hero image placeholder</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="page-width landing-page__trust">
+    <div class="landing-page__trust-grid">
+      <div class="landing-page__trust-card">
+        <span class="landing-page__trust-eyebrow">Free shipping</span>
+        <strong>Always on every desk.</strong>
+      </div>
+      <div class="landing-page__trust-card">
+        <span class="landing-page__trust-eyebrow">30-day guarantee</span>
+        <strong>Love it or return it hassle-free.</strong>
+      </div>
+      <div class="landing-page__trust-card">
+        <span class="landing-page__trust-eyebrow">4.9/5 stars</span>
+        <strong>Trusted by remote workers and binge-watchers.</strong>
+      </div>
+      <div class="landing-page__trust-card">
+        <span class="landing-page__trust-eyebrow">Secure checkout</span>
+        <strong>Fast, encrypted payment processing.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-width landing-page__product" id="ProductInfo-landing_page">
+    <div class="landing-page__product-grid">
+      <div class="landing-page__product-media">
+        {%- if has_product and product.featured_image != blank -%}
+          {{ product.featured_image | image_url: width: 1200, format: 'webp' | image_tag: alt: product.title, loading: 'lazy' }}
+        {%- else -%}
+          <div class="placeholder-media" style="width:100%;min-height:420px;border-radius:1.75rem;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:rgba(0,0,0,0.35);">Product image placeholder</div>
+        {%- endif -%}
+      </div>
+
+      <div class="landing-page__product-copy">
+        <span class="landing-page__hero-eyebrow">Build your ideal bedside setup</span>
+        <h2>{%- if has_product -%}{{ product.title }}{%- else -%}Pop Out Bed Desk{%- endif -%}</h2>
+        <p>{%- if has_product -%}{{ product.description | strip_html | truncate: 180 }}{%- else -%}Three sizes, multiple colors, and a mattress-safe base designed to keep your laptop cool and your setup stable.{%- endif -%}</p>
+
+        <div class="landing-page__price-stack">
+          {%- if has_product -%}
+            {%- assign compare_price = product.compare_at_price_max -%}
+            {%- if compare_price > product.price_max -%}
+              <span class="landing-page__compare-price">{{ compare_price | money }}</span>
+            {%- endif -%}
+            <span class="h2">Starts at {{ product.price_min | money }}</span>
+          {%- else -%}
+            <span class="h2">Starts at $49</span>
+          {%- endif -%}
+        </div>
+
+        <div class="landing-page__features">
+          <div class="landing-page__feature-card">
+            <strong>Heat venting design</strong>
+            Keeps your laptop cool without a bulky stand.
+          </div>
+          <div class="landing-page__feature-card">
+            <strong>Non-slip mattress legs</strong>
+            W-shaped feet stay steady on every surface.
+          </div>
+          <div class="landing-page__feature-card">
+            <strong>Foldable profile</strong>
+            Packs flat and stores easily under beds or couches.
+          </div>
+        </div>
+
+        {%- if has_product -%}
+          {%- form 'product', product, id: 'LandingProductForm-' | append: section.id -%}
+            {%- if product.has_only_default_variant == false -%}
+              <div class="product-form__inputs">
+                {%- for option in product.options_with_values -%}
+                  <div class="product-form__input">
+                    <label class="form__label" for="Option-{{ section.id }}-{{ option.name | handleize }}">{{ option.name }}</label>
+                    <select id="Option-{{ section.id }}-{{ option.name | handleize }}" name="options[{{ option.name }}]" class="select">
+                      {%- for value in option.values -%}
+                        <option value="{{ value | escape }}">{{ value }}</option>
+                      {%- endfor -%}
+                    </select>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+            <div class="button-group" style="display:grid;gap:0.75rem;">
+              <button type="submit" class="button button--primary">Add to cart</button>
+              <a href="{{ routes.cart_url }}" class="button button--secondary">Checkout</a>
+            </div>
+          {%- endform -%}
+        {%- else -%}
+          <div class="button-group" style="display:grid;gap:0.75rem;">
+            <a href="{{ routes.root_url }}collections/all" class="button button--primary">Browse products</a>
+            <a href="#faq" class="button button--secondary">Read FAQs</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="page-width landing-page__problem-solution">
+    <div class="landing-page__hero-eyebrow">Problem vs. Solution</div>
+    <div class="landing-page__trust-grid" style="gap:1.5rem;">
+      <div class="landing-page__trust-card">
+        <strong>Problem: laptop heat</strong>
+        Laptops overheat on blankets, slowing your work and raising the risk of damage.
+      </div>
+      <div class="landing-page__trust-card">
+        <strong>Solution: ventilated surface</strong>
+        The Pop Out Bed Desk keeps airflow moving with built-in cooling vents.
+      </div>
+      <div class="landing-page__trust-card">
+        <strong>Problem: unstable surfaces</strong>
+        Table legs sink, wobble, and spill drinks during late-night sessions.
+      </div>
+      <div class="landing-page__trust-card">
+        <strong>Solution: non-slip legs</strong>
+        Mattress-friendly W legs lock the desk in place without damaging fabric.
+      </div>
+    </div>
+  </div>
+
+  <div class="page-width landing-page__testimonials" id="testimonials">
+    <div class="landing-page__hero-eyebrow">Customer reviews</div>
+    <div class="landing-page__testimonial-grid">
+      <div class="landing-page__testimonial-card">
+        <strong>“Feels premium and so stable!”</strong>
+        <p>“The XL model fits my dual monitors and keeps everything cool. I use it every day.”</p>
+        <small>— Avery, Verified Buyer</small>
+      </div>
+      <div class="landing-page__testimonial-card">
+        <strong>“Best purchase for remote work.”</strong>
+        <p>“No assembly, no wobble, and the cup holder is a lifesaver during coffee breaks.”</p>
+        <small>— Jordan, Verified Buyer</small>
+      </div>
+      <div class="landing-page__testimonial-card">
+        <strong>“Perfect for bed and couch.”</strong>
+        <p>“Easy to fold away, and the Pro height adjustment is great for typing.”</p>
+        <small>— Sam, Verified Buyer</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-width landing-page__faq" id="faq">
+    <div class="landing-page__hero-eyebrow">Frequently asked questions</div>
+    <details open>
+      <summary>Does it fit over a King-size bed?</summary>
+      <p>Yes. The XL version is made for wider surfaces, and the Standard model still fits queen and full beds with ease.</p>
+    </details>
+    <details>
+      <summary>How much weight can it hold?</summary>
+      <p>Designed to support laptops, tablets, snacks, and accessories, it holds up to 20kg on a stable surface.</p>
+    </details>
+    <details>
+      <summary>Is any assembly required?</summary>
+      <p>No assembly required. It pops out of the box ready to use.</p>
+    </details>
+  </div>
+
+  <div class="page-width landing-page__newsletter">
+    <div class="landing-page__trust-card" style="display:flex;flex-direction:column;align-items:start;gap:1rem;">
+      <span class="landing-page__hero-eyebrow">10% off your first order</span>
+      <h2 style="margin:0;">Join the Everydaygrabs mailing list</h2>
+      <p style="margin:0;max-width:620px;">Be the first to hear about new launches, restocks, and exclusive deals for bed workers and loungers.</p>
+      {%- form 'customer', class: 'newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div style="display:grid;gap:0.75rem;margin-top:1rem;">
+          <label class="visually-hidden" for="LandingNewsletterEmail-{{ section.id }}">Email address</label>
+          <input id="LandingNewsletterEmail-{{ section.id }}" type="email" name="contact[email]" placeholder="Enter your email" required class="field__input" style="width:100%;padding:1rem;border:1px solid rgba(0,0,0,0.08);border-radius:0.75rem;">
+          <button type="submit" class="button button--primary">Join now</button>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Everydaygrabs landing page",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Featured product"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Everydaygrabs landing page",
+      "category": "Home page"
+    }
+  ]
+}
+{% endschema %}

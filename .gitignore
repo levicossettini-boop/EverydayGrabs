@@ -1,0 +1,12 @@
+# Node modules
+node_modules/
+
+# Shopify CLI cache
+.shopify/
+
+# OS files
+.DS_Store
+
+# Editor files
+.vscode/
+*.swp

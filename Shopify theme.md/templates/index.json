@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "landing_page": {
+      "type": "landing-page",
+      "settings": {
+        "hero_image": "",
+        "product": ""
+      }
+    }
+  },
+  "order": [
+    "landing_page"
+  ]
+}
