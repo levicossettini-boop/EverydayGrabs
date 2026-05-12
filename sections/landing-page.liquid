@@ -2,410 +2,569 @@
 {%- assign has_product = product != null -%}
 
 {%- style -%}
-  .landing-page {
-    color: inherit;
+  .eg-landing { --eg-fg: 18,18,18; --eg-bg: 255,255,255; --eg-line: 230,230,230; --eg-soft: 248,248,248; color: rgb(var(--eg-fg)); background: rgb(var(--eg-bg)); font-family: -apple-system, BlinkMacSystemFont, "Inter", "Assistant", system-ui, sans-serif; line-height: 1.55; }
+  .eg-landing *, .eg-landing *::before, .eg-landing *::after { box-sizing: border-box; }
+  .eg-landing img, .eg-landing video { max-width: 100%; display: block; }
+  .eg-container { max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+  .eg-section { padding: 6rem 0; }
+  .eg-eyebrow { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(var(--eg-fg), 0.55); display: inline-block; }
+  .eg-h1 { font-size: clamp(2.4rem, 6vw, 4.8rem); font-weight: 800; line-height: 1.02; letter-spacing: -0.02em; margin: 1rem 0 1.25rem; }
+  .eg-h1 em { font-style: italic; font-weight: 800; }
+  .eg-h2 { font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.02em; margin: 0.5rem 0 0.75rem; }
+  .eg-h2 em { font-style: italic; font-weight: 800; }
+  .eg-sub { font-size: 1.075rem; color: rgba(var(--eg-fg), 0.7); max-width: 560px; }
+  .eg-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1.05rem 1.75rem; border-radius: 999px; font-weight: 700; font-size: 0.96rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform .15s ease; }
+  .eg-btn:hover { transform: translateY(-1px); }
+  .eg-btn-primary { background: rgb(var(--eg-fg)); color: rgb(var(--eg-bg)); }
+  .eg-btn-outline { background: transparent; color: rgb(var(--eg-fg)); border-color: rgba(var(--eg-fg), 0.2); }
+  .eg-btn-sm { padding: 0.7rem 1.1rem; font-size: 0.85rem; }
+
+  .eg-announce { background: rgb(var(--eg-fg)); color: rgb(var(--eg-bg)); text-align: center; font-size: 0.85rem; padding: 0.75rem 1rem; }
+  .eg-announce span.dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: rgba(var(--eg-bg), 0.5); margin: 0 0.75rem; vertical-align: middle; }
+
+  .eg-hero { padding: 4rem 0 5rem; }
+  .eg-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 4rem; align-items: center; }
+  .eg-hero-trust { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem; font-size: 0.9rem; color: rgba(var(--eg-fg), 0.7); }
+  .eg-stars { color: #f5a524; letter-spacing: 0.05em; font-size: 1rem; }
+  .eg-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+  .eg-hero-card { position: relative; border-radius: 28px; overflow: hidden; background: rgb(var(--eg-soft)); aspect-ratio: 4/5; box-shadow: 0 30px 80px rgba(0,0,0,0.08); }
+  .eg-hero-card img { width: 100%; height: 100%; object-fit: cover; }
+  .eg-hero-tag { position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); padding: 0.45rem 0.85rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .eg-hero-badge { position: absolute; bottom: 1.25rem; left: 1.25rem; background: rgba(18,18,18,0.92); color: #fff; padding: 0.65rem 1rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+  .eg-hero-badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 8px rgba(74,222,128,0.6); }
+
+  .eg-trust { padding: 3.5rem 0; border-top: 1px solid rgb(var(--eg-line)); border-bottom: 1px solid rgb(var(--eg-line)); }
+  .eg-trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .eg-trust-item { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .eg-trust-ico { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: rgb(var(--eg-soft)); display: flex; align-items: center; justify-content: center; color: rgb(var(--eg-fg)); }
+  .eg-trust-ico svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .eg-trust-text strong { display: block; font-size: 0.96rem; font-weight: 700; }
+  .eg-trust-text span { display: block; font-size: 0.85rem; color: rgba(var(--eg-fg), 0.65); margin-top: 0.15rem; }
+
+  .eg-feature { background: rgb(var(--eg-soft)); }
+  .eg-feature-head { text-align: center; max-width: 720px; margin: 0 auto 3rem; }
+  .eg-mode-toggle { display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(var(--eg-fg), 0.06); margin-top: 1.5rem; }
+  .eg-mode-toggle button { background: transparent; border: 0; padding: 0.65rem 1.4rem; border-radius: 999px; cursor: pointer; font-weight: 600; font-size: 0.9rem; color: rgba(var(--eg-fg), 0.6); display: inline-flex; align-items: center; gap: 0.45rem; transition: all 0.2s ease; }
+  .eg-mode-toggle button.active { background: rgb(var(--eg-bg)); color: rgb(var(--eg-fg)); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+  .eg-mode-toggle svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .eg-feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .eg-feature-visual { border-radius: 24px; overflow: hidden; aspect-ratio: 1; background: #fff; box-shadow: 0 20px 50px rgba(0,0,0,0.08); position: relative; }
+  .eg-fv-mode { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease; }
+  .eg-fv-mode img { width: 100%; height: 100%; object-fit: cover; }
+  .eg-fv-mode.active { opacity: 1; }
+  .eg-fc-mode { display: none; }
+  .eg-fc-mode.active { display: block; }
+  .eg-feature-tag { display: inline-block; padding: 0.35rem 0.85rem; background: rgb(var(--eg-fg)); color: rgb(var(--eg-bg)); border-radius: 999px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; }
+  .eg-fc-mode h3 { font-size: clamp(1.5rem, 2.5vw, 2.1rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 1rem; }
+  .eg-fc-mode .lead { font-size: 1.05rem; color: rgba(var(--eg-fg), 0.7); margin: 0 0 1.5rem; }
+  .eg-bullets { display: grid; gap: 1.25rem; }
+  .eg-bullet { display: flex; gap: 1rem; align-items: flex-start; }
+  .eg-bullet-ico { flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px; background: rgb(var(--eg-bg)); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  .eg-bullet-ico svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .eg-bullet h4 { margin: 0 0 0.25rem; font-size: 1rem; font-weight: 700; }
+  .eg-bullet p { margin: 0; font-size: 0.9rem; color: rgba(var(--eg-fg), 0.65); }
+
+  .eg-benefits-head { text-align: center; max-width: 700px; margin: 0 auto 3.5rem; }
+  .eg-benefits-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .eg-benefit { padding: 2rem 1.5rem; border-radius: 20px; background: rgb(var(--eg-soft)); }
+  .eg-benefit-ico { width: 48px; height: 48px; border-radius: 12px; background: rgb(var(--eg-bg)); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+  .eg-benefit-ico svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .eg-benefit h3 { margin: 0 0 0.5rem; font-size: 1.05rem; font-weight: 700; }
+  .eg-benefit p { margin: 0; font-size: 0.9rem; color: rgba(var(--eg-fg), 0.65); line-height: 1.55; }
+
+  .eg-shop-head { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .eg-products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .eg-product { display: block; text-decoration: none; color: inherit; }
+  .eg-product-img { position: relative; aspect-ratio: 4/5; border-radius: 20px; overflow: hidden; background: rgb(var(--eg-soft)); margin-bottom: 0.85rem; }
+  .eg-product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .eg-product:hover .eg-product-img img { transform: scale(1.04); }
+  .eg-product-badge { position: absolute; top: 0.85rem; left: 0.85rem; background: #dc2626; color: #fff; padding: 0.35rem 0.7rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; z-index: 2; }
+  .eg-product-info { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .eg-product-name { margin: 0; font-weight: 700; font-size: 1rem; }
+  .eg-product-meta { margin: 0.2rem 0 0; font-size: 0.82rem; color: rgba(var(--eg-fg), 0.6); }
+  .eg-product-price { margin: 0; font-weight: 700; color: #dc2626; font-size: 1rem; }
+  .eg-product-compare { margin: 0.2rem 0 0; font-size: 0.82rem; color: rgba(var(--eg-fg), 0.5); text-decoration: line-through; }
+  .eg-shop-foot { display: flex; justify-content: center; margin-top: 3rem; }
+
+  .eg-steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .eg-step-num { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.18em; color: rgba(var(--eg-fg), 0.4); display: block; margin-bottom: 1rem; }
+  .eg-step-img { aspect-ratio: 4/3; border-radius: 20px; overflow: hidden; background: rgb(var(--eg-soft)); margin-bottom: 1.25rem; }
+  .eg-step-img img { width: 100%; height: 100%; object-fit: cover; }
+  .eg-step h3 { margin: 0 0 0.5rem; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; }
+  .eg-step p { margin: 0; color: rgba(var(--eg-fg), 0.65); font-size: 0.95rem; }
+
+  .eg-proof { background: rgb(var(--eg-fg)); color: rgb(var(--eg-bg)); padding: 2.5rem 0; }
+  .eg-proof-inner { display: flex; align-items: center; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+  .eg-proof-rating { display: flex; align-items: center; gap: 1rem; }
+  .eg-proof-rating .eg-stars { font-size: 1.4rem; }
+  .eg-proof-num { display: block; font-weight: 800; font-size: 1.15rem; }
+  .eg-proof-label { display: block; font-size: 0.8rem; opacity: 0.65; }
+  .eg-proof-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.2); }
+  .eg-proof-press { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .eg-press-label { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.55; }
+  .eg-press-badge { font-weight: 700; font-size: 0.95rem; opacity: 0.85; letter-spacing: -0.01em; }
+
+  .eg-reviews-head { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .eg-reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .eg-review { padding: 2rem 1.75rem; border-radius: 20px; background: rgb(var(--eg-soft)); }
+  .eg-review-stars { color: #f5a524; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .eg-review-quote { font-size: 1rem; line-height: 1.6; margin: 0 0 1.5rem; }
+  .eg-review-author { display: flex; align-items: center; gap: 0.85rem; }
+  .eg-review-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgb(var(--eg-fg)); color: rgb(var(--eg-bg)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+  .eg-review-name { margin: 0; font-weight: 700; font-size: 0.92rem; }
+  .eg-review-meta { margin: 0.15rem 0 0; font-size: 0.78rem; color: rgba(var(--eg-fg), 0.55); }
+
+  .eg-faq-head { text-align: center; max-width: 600px; margin: 0 auto 3rem; }
+  .eg-faq-list { max-width: 760px; margin: 0 auto; }
+  .eg-faq-item { border-bottom: 1px solid rgb(var(--eg-line)); padding: 1.5rem 0; }
+  .eg-faq-q { display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 700; font-size: 1.05rem; list-style: none; }
+  .eg-faq-q::-webkit-details-marker { display: none; }
+  .eg-faq-q svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; transition: transform 0.2s ease; flex-shrink: 0; }
+  .eg-faq-item[open] .eg-faq-q svg { transform: rotate(180deg); }
+  .eg-faq-a { padding-top: 1rem; color: rgba(var(--eg-fg), 0.7); font-size: 0.97rem; line-height: 1.6; }
+
+  .eg-email { background: rgb(var(--eg-fg)); color: rgb(var(--eg-bg)); padding: 5rem 0; }
+  .eg-email-inner { max-width: 640px; margin: 0 auto; text-align: center; padding: 0 1.5rem; }
+  .eg-email-inner .eg-eyebrow { color: rgba(255,255,255,0.55); }
+  .eg-email-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin: 1rem 0; }
+  .eg-email-title em { font-style: italic; }
+  .eg-email-sub { font-size: 1rem; opacity: 0.75; margin: 0 0 2rem; }
+  .eg-email-form { display: flex; gap: 0.5rem; max-width: 480px; margin: 0 auto; padding: 4px; background: rgba(255,255,255,0.1); border-radius: 999px; }
+  .eg-email-input { flex: 1; padding: 0.85rem 1.25rem; border: 0; border-radius: 999px; background: transparent; color: #fff; font-size: 0.95rem; outline: none; }
+  .eg-email-input::placeholder { color: rgba(255,255,255,0.5); }
+  .eg-email-form .eg-btn { padding: 0.85rem 1.5rem; background: rgb(var(--eg-bg)); color: rgb(var(--eg-fg)); }
+  .eg-email-note { font-size: 0.78rem; opacity: 0.5; margin: 1.25rem 0 0; }
+
+  .eg-sticky { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: rgb(var(--eg-fg)); color: rgb(var(--eg-bg)); padding: 0.85rem 0.85rem 0.85rem 1.5rem; border-radius: 999px; display: none; align-items: center; gap: 1.25rem; box-shadow: 0 12px 40px rgba(0,0,0,0.25); z-index: 50; }
+  .eg-sticky.visible { display: flex; }
+  .eg-sticky-label { font-size: 0.85rem; font-weight: 700; }
+  .eg-sticky-label span { display: block; font-size: 0.72rem; font-weight: 400; opacity: 0.65; }
+  .eg-sticky .eg-btn { background: rgb(var(--eg-bg)); color: rgb(var(--eg-fg)); }
+
+  @media (max-width: 990px) {
+    .eg-section { padding: 4rem 0; }
+    .eg-hero-grid, .eg-feature-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .eg-trust-grid, .eg-benefits-grid, .eg-products-grid, .eg-steps-grid, .eg-reviews-grid { grid-template-columns: repeat(2, 1fr); }
+    .eg-shop-head, .eg-reviews-head { flex-direction: column; align-items: flex-start; }
   }
-
-  .landing-page__hero {
-    padding: 5rem 0 3rem;
-  }
-
-  .landing-page__hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .landing-page__hero-eyebrow,
-  .landing-page__trust-eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
-    color: rgba(var(--color-foreground), 0.75);
-  }
-
-  .landing-page__hero-heading {
-    margin: 0;
-    max-width: 680px;
-  }
-
-  .landing-page__hero-copy {
-    margin: 1.5rem 0 2rem;
-    max-width: 620px;
-  }
-
-  .landing-page__hero-buttons {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, max-content));
-    gap: 0.75rem;
-  }
-
-  .landing-page__hero-media {
-    display: grid;
-    justify-items: center;
-    position: relative;
-  }
-
-  .landing-page__hero-media img {
-    width: min(100%, 560px);
-    border-radius: 2rem;
-    object-fit: cover;
-  }
-
-  .landing-page__trust {
-    margin: 2rem 0 4rem;
-    padding: 1.5rem 0;
-  }
-
-  .landing-page__trust-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .landing-page__trust-card {
-    border-radius: 1.5rem;
-    background: rgba(var(--color-background) / 0.92);
-    padding: 1.5rem;
-    text-align: center;
-    min-height: 128px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  }
-
-  .landing-page__trust-card strong {
-    display: block;
-    margin-top: 0.5rem;
-    font-size: 1.05rem;
-  }
-
-  .landing-page__product {
-    padding: 3rem 0;
-  }
-
-  .landing-page__product-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .landing-page__product-media img {
-    width: 100%;
-    border-radius: 1.75rem;
-    object-fit: cover;
-    aspect-ratio: 4 / 3;
-  }
-
-  .landing-page__product-copy {
-    display: grid;
-    gap: 1.2rem;
-  }
-
-  .landing-page__product-copy h2 {
-    margin: 0;
-  }
-
-  .landing-page__price-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: baseline;
-  }
-
-  .landing-page__compare-price {
-    text-decoration: line-through;
-    opacity: 0.65;
-  }
-
-  .landing-page__features {
-    display: grid;
-    gap: 1rem;
-    margin: 2rem 0;
-  }
-
-  .landing-page__feature-card {
-    border-radius: 1.5rem;
-    padding: 1.25rem;
-    background: rgba(var(--color-background) / 0.92);
-    box-shadow: 0 18px 45px rgba(0,0,0,0.05);
-  }
-
-  .landing-page__feature-card strong {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .landing-page__testimonial-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    margin: 2rem 0;
-  }
-
-  .landing-page__testimonial-card {
-    border-radius: 1.75rem;
-    padding: 1.75rem;
-    background: rgba(var(--color-background) / 0.94);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.05);
-  }
-
-  .landing-page__faq {
-    display: grid;
-    gap: 1rem;
-    margin: 2rem 0 4rem;
-  }
-
-  .landing-page__faq details {
-    border-radius: 1.25rem;
-    padding: 1.25rem 1.5rem;
-    background: rgba(var(--color-background) / 0.92);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
-  }
-
-  .landing-page__faq summary {
-    cursor: pointer;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
-
-  @media screen and (max-width: 990px) {
-    .landing-page__hero-grid,
-    .landing-page__product-grid,
-    .landing-page__trust-grid,
-    .landing-page__testimonial-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .landing-page__hero-buttons {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    .landing-page__hero {
-      padding-top: 3rem;
-    }
-
-    .landing-page__hero-copy {
-      font-size: 1rem;
-    }
+  @media (max-width: 640px) {
+    .eg-section { padding: 3rem 0; }
+    .eg-hero { padding: 2.5rem 0 3rem; }
+    .eg-trust-grid, .eg-benefits-grid, .eg-products-grid, .eg-steps-grid, .eg-reviews-grid { grid-template-columns: 1fr; }
+    .eg-cta-row .eg-btn { flex: 1; }
+    .eg-email-form { flex-direction: column; background: transparent; padding: 0; }
+    .eg-email-input { background: rgba(255,255,255,0.1); border-radius: 12px; }
+    .eg-email-form .eg-btn { border-radius: 12px; }
   }
 {%- endstyle -%}
 
-<section class="landing-page">
-  <div class="page-width landing-page__hero">
-    <div class="landing-page__hero-grid">
-      <div>
-        <span class="landing-page__hero-eyebrow">Everydaygrabs</span>
-        <h1 class="landing-page__hero-heading">The desk for when you don't feel like sitting at a desk.</h1>
-        <p class="landing-page__hero-copy">Ergonomic, foldable, and built for your ultimate comfort. Work, eat, or watch from the comfort of your bed without overheating your laptop.</p>
-        <div class="landing-page__hero-buttons">
-          <a href="#ProductInfo-landing_page" class="button button--primary">Get Yours — Shop Now</a>
-          <a href="#faq" class="button button--secondary">See FAQs</a>
+<div class="eg-landing">
+
+  <div class="eg-announce">
+    <span>Free AU shipping on orders over $75</span>
+    <span class="dot"></span>
+    <span>30-day returns, no questions asked</span>
+  </div>
+
+  <section id="hero" class="eg-hero">
+    <div class="eg-container">
+      <div class="eg-hero-grid">
+        <div>
+          <span class="eg-eyebrow">Foldable Bed Desk</span>
+          <h1 class="eg-h1">Work it.<br>Lounge it.<br>Pop it<em>.</em></h1>
+          <p class="eg-sub">The premium pop-out bed desk built for remote workers and binge-watchers. Cool laptops, stable surface, folds flat in seconds — no assembly, ever.</p>
+          <div class="eg-cta-row">
+            <a href="#shop" class="eg-btn eg-btn-primary">{%- if has_product -%}Shop now — from {{ product.price_min | money_without_trailing_zeros }}{%- else -%}Shop now — from $49{%- endif -%}</a>
+            <a href="#how" class="eg-btn eg-btn-outline">How it works</a>
+          </div>
+          <div class="eg-hero-trust">
+            <span class="eg-stars">★★★★★</span>
+            <span><strong>4.9</strong> from 2,000+ verified buyers</span>
+          </div>
         </div>
-      </div>
-      <div class="landing-page__hero-media">
-        {%- if section.settings.hero_image != blank -%}
-          {{ section.settings.hero_image | image_url: width: 1600, format: 'webp' | image_tag: alt: 'Pop Out Bed Desk in use', loading: 'eager' }}
-        {%- else -%}
-          <div class="placeholder-media" style="width:100%;min-height:360px;border-radius:1.75rem;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:rgba(0,0,0,0.35);">Hero image placeholder</div>
-        {%- endif -%}
-      </div>
-    </div>
-  </div>
-
-  <div class="page-width landing-page__trust">
-    <div class="landing-page__trust-grid">
-      <div class="landing-page__trust-card">
-        <span class="landing-page__trust-eyebrow">Free shipping</span>
-        <strong>Always on every desk.</strong>
-      </div>
-      <div class="landing-page__trust-card">
-        <span class="landing-page__trust-eyebrow">30-day guarantee</span>
-        <strong>Love it or return it hassle-free.</strong>
-      </div>
-      <div class="landing-page__trust-card">
-        <span class="landing-page__trust-eyebrow">4.9/5 stars</span>
-        <strong>Trusted by remote workers and binge-watchers.</strong>
-      </div>
-      <div class="landing-page__trust-card">
-        <span class="landing-page__trust-eyebrow">Secure checkout</span>
-        <strong>Fast, encrypted payment processing.</strong>
-      </div>
-    </div>
-  </div>
-
-  <div class="page-width landing-page__product" id="ProductInfo-landing_page">
-    <div class="landing-page__product-grid">
-      <div class="landing-page__product-media">
-        {%- if has_product and product.featured_image != blank -%}
-          {{ product.featured_image | image_url: width: 1200, format: 'webp' | image_tag: alt: product.title, loading: 'lazy' }}
-        {%- else -%}
-          <div class="placeholder-media" style="width:100%;min-height:420px;border-radius:1.75rem;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:rgba(0,0,0,0.35);">Product image placeholder</div>
-        {%- endif -%}
-      </div>
-
-      <div class="landing-page__product-copy">
-        <span class="landing-page__hero-eyebrow">Build your ideal bedside setup</span>
-        <h2>{%- if has_product -%}{{ product.title }}{%- else -%}Pop Out Bed Desk{%- endif -%}</h2>
-        <p>{%- if has_product -%}{{ product.description | strip_html | truncate: 180 }}{%- else -%}Three sizes, multiple colors, and a mattress-safe base designed to keep your laptop cool and your setup stable.{%- endif -%}</p>
-
-        <div class="landing-page__price-stack">
-          {%- if has_product -%}
-            {%- assign compare_price = product.compare_at_price_max -%}
-            {%- if compare_price > product.price_max -%}
-              <span class="landing-page__compare-price">{{ compare_price | money }}</span>
+        <div>
+          <div class="eg-hero-card">
+            {%- if section.settings.hero_image != blank -%}
+              {{ section.settings.hero_image | image_url: width: 1200, format: 'webp' | image_tag: alt: 'Pop Out Bed Desk in use', loading: 'eager' }}
+            {%- else -%}
+              <img src="https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=1200&q=80" alt="Pop Out Bed Desk" loading="eager">
             {%- endif -%}
-            <span class="h2">Starts at {{ product.price_min | money }}</span>
-          {%- else -%}
-            <span class="h2">Starts at $49</span>
-          {%- endif -%}
-        </div>
-
-        <div class="landing-page__features">
-          <div class="landing-page__feature-card">
-            <strong>Heat venting design</strong>
-            Keeps your laptop cool without a bulky stand.
-          </div>
-          <div class="landing-page__feature-card">
-            <strong>Non-slip mattress legs</strong>
-            W-shaped feet stay steady on every surface.
-          </div>
-          <div class="landing-page__feature-card">
-            <strong>Foldable profile</strong>
-            Packs flat and stores easily under beds or couches.
+            <span class="eg-hero-tag">New 2026</span>
+            <div class="eg-hero-badge">One-click pop deploy</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        {%- if has_product -%}
-          {%- form 'product', product, id: 'LandingProductForm-' | append: section.id -%}
-            {%- if product.has_only_default_variant == false -%}
-              <div class="product-form__inputs">
-                {%- for option in product.options_with_values -%}
-                  <div class="product-form__input">
-                    <label class="form__label" for="Option-{{ section.id }}-{{ option.name | handleize }}">{{ option.name }}</label>
-                    <select id="Option-{{ section.id }}-{{ option.name | handleize }}" name="options[{{ option.name }}]" class="select">
-                      {%- for value in option.values -%}
-                        <option value="{{ value | escape }}">{{ value }}</option>
-                      {%- endfor -%}
-                    </select>
-                  </div>
-                {%- endfor -%}
+  <section class="eg-trust">
+    <div class="eg-container">
+      <div class="eg-trust-grid">
+        <div class="eg-trust-item">
+          <div class="eg-trust-ico"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+          <div class="eg-trust-text"><strong>One-Click Pop</strong><span>Deploy in 0.5 seconds</span></div>
+        </div>
+        <div class="eg-trust-item">
+          <div class="eg-trust-ico"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/></svg></div>
+          <div class="eg-trust-text"><strong>Steel Frame</strong><span>Built to last for years</span></div>
+        </div>
+        <div class="eg-trust-item">
+          <div class="eg-trust-ico"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 14-7"/><path d="M21 5v5h-5"/><path d="M21 12a9 9 0 0 1-14 7"/><path d="M3 19v-5h5"/></svg></div>
+          <div class="eg-trust-text"><strong>Free Returns</strong><span>30 days, no hassle</span></div>
+        </div>
+        <div class="eg-trust-item">
+          <div class="eg-trust-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <div class="eg-trust-text"><strong>Secure Checkout</strong><span>Encrypted payments</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="feature" class="eg-section eg-feature">
+    <div class="eg-container">
+      <div class="eg-feature-head">
+        <span class="eg-eyebrow">Two modes. One desk.</span>
+        <h2 class="eg-h2">Switch in one <em>click.</em></h2>
+        <p class="eg-sub" style="margin-left:auto;margin-right:auto;">Tap a button to see how the Pop Out Bed Desk transforms from a slim folded panel into a stable workstation.</p>
+        <div class="eg-mode-toggle" role="tablist">
+          <button class="active" data-mode="desk" role="tab" aria-selected="true">
+            <svg viewBox="0 0 16 16"><path d="M2 11h12v2H2zm1-3h11v1H3zm1-3h9v1H4z"/></svg> Desk Mode
+          </button>
+          <button data-mode="folded" role="tab" aria-selected="false">
+            <svg viewBox="0 0 16 16"><rect x="3" y="6" width="10" height="4"/></svg> Folded Mode
+          </button>
+        </div>
+      </div>
+      <div class="eg-feature-grid">
+        <div class="eg-feature-visual">
+          <div class="eg-fv-mode active" data-mode="desk">
+            <img src="https://images.unsplash.com/photo-1517502884422-41eaead166d4?w=900&q=80" alt="Pop Out Bed Desk — open mode" loading="lazy">
+          </div>
+          <div class="eg-fv-mode" data-mode="folded">
+            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=900&q=80" alt="Pop Out Bed Desk — folded mode" loading="lazy">
+          </div>
+        </div>
+        <div>
+          <div class="eg-fc-mode active" data-mode="desk">
+            <span class="eg-feature-tag">Desk Mode</span>
+            <h3>Looks like a desk.<br>Works like a desk.</h3>
+            <p class="lead">Pop the legs out and you've got a heat-venting, mattress-stable surface for laptops, tablets, drinks, and snacks.</p>
+            <div class="eg-bullets">
+              <div class="eg-bullet">
+                <div class="eg-bullet-ico"><svg viewBox="0 0 24 24"><path d="M3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9"/><path d="M3 12h6"/></svg></div>
+                <div><h4>Heat-vent surface</h4><p>Perforated top keeps laptops cool — no overheating on blankets.</p></div>
               </div>
-            {%- endif -%}
-            <div class="button-group" style="display:grid;gap:0.75rem;">
-              <button type="submit" class="button button--primary">Add to cart</button>
-              <a href="{{ routes.cart_url }}" class="button button--secondary">Checkout</a>
+              <div class="eg-bullet">
+                <div class="eg-bullet-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div>
+                <div><h4>Non-slip W-legs</h4><p>Wide footprint locks onto any mattress without sinking or wobbling.</p></div>
+              </div>
+              <div class="eg-bullet">
+                <div class="eg-bullet-ico"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="4"/></svg></div>
+                <div><h4>Side drawer</h4><p>Stash chargers, pens, snacks, and a phone — out of sight, in reach.</p></div>
+              </div>
             </div>
-          {%- endform -%}
-        {%- else -%}
-          <div class="button-group" style="display:grid;gap:0.75rem;">
-            <a href="{{ routes.root_url }}collections/all" class="button button--primary">Browse products</a>
-            <a href="#faq" class="button button--secondary">Read FAQs</a>
           </div>
+          <div class="eg-fc-mode" data-mode="folded">
+            <span class="eg-feature-tag">Folded Mode</span>
+            <h3>One click.<br>Packs flat. Stores anywhere.</h3>
+            <p class="lead">Press the side release and the legs fold flush. Slides under beds, behind couches, into a drawer.</p>
+            <div class="eg-bullets">
+              <div class="eg-bullet">
+                <div class="eg-bullet-ico"><svg viewBox="0 0 24 24"><path d="M3 17l4-4 3 3 7-7 4 4"/><path d="M3 21h18"/></svg></div>
+                <div><h4>Folds flat in seconds</h4><p>Goes from desk to flat-pack in one motion — no levers, no fuss.</p></div>
+              </div>
+              <div class="eg-bullet">
+                <div class="eg-bullet-ico"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+                <div><h4>Slim 4cm profile</h4><p>Slides under most beds, behind couches, or into a wardrobe.</p></div>
+              </div>
+              <div class="eg-bullet">
+                <div class="eg-bullet-ico"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/></svg></div>
+                <div><h4>Travel-ready</h4><p>Light enough to carry — toss in a backpack for cafes and trips.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="benefits" class="eg-section">
+    <div class="eg-container">
+      <div class="eg-benefits-head">
+        <span class="eg-eyebrow">Why Everydaygrabs</span>
+        <h2 class="eg-h2">Built different.<br>Built to last.</h2>
+        <p class="eg-sub" style="margin-left:auto;margin-right:auto;">Every Pop Out Bed Desk is engineered to the same standards we'd want on our own bed.</p>
+      </div>
+      <div class="eg-benefits-grid">
+        <div class="eg-benefit">
+          <div class="eg-benefit-ico"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+          <h3>One-Click Pop</h3>
+          <p>Patented hinge deploys in half a second. No tools, no setup.</p>
+        </div>
+        <div class="eg-benefit">
+          <div class="eg-benefit-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>Ultra-Light Build</h3>
+          <p>Engineered to weigh under 2kg — even with the steel core inside.</p>
+        </div>
+        <div class="eg-benefit">
+          <div class="eg-benefit-ico"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M9 5h6"/><path d="M9 19h6"/></svg></div>
+          <h3>3 Sizes, Any Bed</h3>
+          <p>Standard, Pro, and XL. Fits twin to king mattresses with ease.</p>
+        </div>
+        <div class="eg-benefit">
+          <div class="eg-benefit-ico"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/></svg></div>
+          <h3>Steel Core</h3>
+          <p>Industrial steel hinge frame. Built to outlast your laptop.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="shop" class="eg-section">
+    <div class="eg-container">
+      <div class="eg-shop-head">
+        <div>
+          <span class="eg-eyebrow">The Catalog</span>
+          <h2 class="eg-h2" style="margin-top:0.5rem;">Find your <em>setup.</em></h2>
+          <p class="eg-sub" style="margin-top:0.75rem;">Three sizes. Multiple colorways. One mechanism that just works.</p>
+        </div>
+        <a href="{{ routes.collections_url }}/all" class="eg-btn eg-btn-outline eg-btn-sm">View all styles →</a>
+      </div>
+      <div class="eg-products-grid">
+        {%- assign all_products = collections.all.products -%}
+        {%- if all_products.size > 0 -%}
+          {%- for p in all_products limit: 6 -%}
+            <a href="{{ p.url }}" class="eg-product">
+              <div class="eg-product-img">
+                {%- if p.compare_at_price > p.price -%}<span class="eg-product-badge">Sale</span>{%- endif -%}
+                {%- if p.featured_image -%}
+                  {{ p.featured_image | image_url: width: 800 | image_tag: alt: p.title, loading: 'lazy' }}
+                {%- else -%}
+                  <img src="https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=800&q=80" alt="{{ p.title }}" loading="lazy">
+                {%- endif -%}
+              </div>
+              <div class="eg-product-info">
+                <div>
+                  <p class="eg-product-name">{{ p.title }}</p>
+                  <p class="eg-product-meta">{{ p.variants.size }} option{% if p.variants.size != 1 %}s{% endif %}</p>
+                </div>
+                <div style="text-align:right;">
+                  <p class="eg-product-price">{{ p.price | money_without_trailing_zeros }}</p>
+                  {%- if p.compare_at_price > p.price -%}
+                    <p class="eg-product-compare">{{ p.compare_at_price | money_without_trailing_zeros }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="{{ routes.collections_url }}/all" class="eg-product">
+            <div class="eg-product-img">
+              <span class="eg-product-badge">Sale</span>
+              <img src="https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=800&q=80" alt="Pop Out Bed Desk Standard" loading="lazy">
+            </div>
+            <div class="eg-product-info">
+              <div><p class="eg-product-name">Pop Out Bed Desk</p><p class="eg-product-meta">Standard · 3 colours</p></div>
+              <div style="text-align:right;"><p class="eg-product-price">$49</p><p class="eg-product-compare">$79</p></div>
+            </div>
+          </a>
+          <a href="{{ routes.collections_url }}/all" class="eg-product">
+            <div class="eg-product-img">
+              <span class="eg-product-badge">Sale</span>
+              <img src="https://images.unsplash.com/photo-1517502884422-41eaead166d4?w=800&q=80" alt="Pop Out Bed Desk Pro" loading="lazy">
+            </div>
+            <div class="eg-product-info">
+              <div><p class="eg-product-name">Pop Out Bed Desk Pro</p><p class="eg-product-meta">Adjustable · 3 colours</p></div>
+              <div style="text-align:right;"><p class="eg-product-price">$69</p><p class="eg-product-compare">$99</p></div>
+            </div>
+          </a>
+          <a href="{{ routes.collections_url }}/all" class="eg-product">
+            <div class="eg-product-img">
+              <span class="eg-product-badge">Sale</span>
+              <img src="https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=800&q=80" alt="Pop Out Bed Desk XL" loading="lazy">
+            </div>
+            <div class="eg-product-info">
+              <div><p class="eg-product-name">Pop Out Bed Desk XL</p><p class="eg-product-meta">Extra wide · 3 colours</p></div>
+              <div style="text-align:right;"><p class="eg-product-price">$89</p><p class="eg-product-compare">$129</p></div>
+            </div>
+          </a>
         {%- endif -%}
       </div>
-    </div>
-  </div>
-
-  <div class="page-width landing-page__problem-solution">
-    <div class="landing-page__hero-eyebrow">Problem vs. Solution</div>
-    <div class="landing-page__trust-grid" style="gap:1.5rem;">
-      <div class="landing-page__trust-card">
-        <strong>Problem: laptop heat</strong>
-        Laptops overheat on blankets, slowing your work and raising the risk of damage.
-      </div>
-      <div class="landing-page__trust-card">
-        <strong>Solution: ventilated surface</strong>
-        The Pop Out Bed Desk keeps airflow moving with built-in cooling vents.
-      </div>
-      <div class="landing-page__trust-card">
-        <strong>Problem: unstable surfaces</strong>
-        Table legs sink, wobble, and spill drinks during late-night sessions.
-      </div>
-      <div class="landing-page__trust-card">
-        <strong>Solution: non-slip legs</strong>
-        Mattress-friendly W legs lock the desk in place without damaging fabric.
+      <div class="eg-shop-foot">
+        <a href="{{ routes.collections_url }}/all" class="eg-btn eg-btn-primary">Browse the full collection →</a>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="page-width landing-page__testimonials" id="testimonials">
-    <div class="landing-page__hero-eyebrow">Customer reviews</div>
-    <div class="landing-page__testimonial-grid">
-      <div class="landing-page__testimonial-card">
-        <strong>“Feels premium and so stable!”</strong>
-        <p>“The XL model fits my dual monitors and keeps everything cool. I use it every day.”</p>
-        <small>— Avery, Verified Buyer</small>
+  <section id="how" class="eg-section eg-feature">
+    <div class="eg-container">
+      <div class="eg-benefits-head">
+        <span class="eg-eyebrow">How it works</span>
+        <h2 class="eg-h2">It's simpler than you think.</h2>
+        <p class="eg-sub" style="margin-left:auto;margin-right:auto;">Three steps. Zero learning curve. From folded to working in the time it takes to read this sentence.</p>
       </div>
-      <div class="landing-page__testimonial-card">
-        <strong>“Best purchase for remote work.”</strong>
-        <p>“No assembly, no wobble, and the cup holder is a lifesaver during coffee breaks.”</p>
-        <small>— Jordan, Verified Buyer</small>
-      </div>
-      <div class="landing-page__testimonial-card">
-        <strong>“Perfect for bed and couch.”</strong>
-        <p>“Easy to fold away, and the Pro height adjustment is great for typing.”</p>
-        <small>— Sam, Verified Buyer</small>
-      </div>
-    </div>
-  </div>
-
-  <div class="page-width landing-page__faq" id="faq">
-    <div class="landing-page__hero-eyebrow">Frequently asked questions</div>
-    <details open>
-      <summary>Does it fit over a King-size bed?</summary>
-      <p>Yes. The XL version is made for wider surfaces, and the Standard model still fits queen and full beds with ease.</p>
-    </details>
-    <details>
-      <summary>How much weight can it hold?</summary>
-      <p>Designed to support laptops, tablets, snacks, and accessories, it holds up to 20kg on a stable surface.</p>
-    </details>
-    <details>
-      <summary>Is any assembly required?</summary>
-      <p>No assembly required. It pops out of the box ready to use.</p>
-    </details>
-  </div>
-
-  <div class="page-width landing-page__newsletter">
-    <div class="landing-page__trust-card" style="display:flex;flex-direction:column;align-items:start;gap:1rem;">
-      <span class="landing-page__hero-eyebrow">10% off your first order</span>
-      <h2 style="margin:0;">Join the Everydaygrabs mailing list</h2>
-      <p style="margin:0;max-width:620px;">Be the first to hear about new launches, restocks, and exclusive deals for bed workers and loungers.</p>
-      {%- form 'customer', class: 'newsletter-form' -%}
-        <input type="hidden" name="contact[tags]" value="newsletter">
-        <div style="display:grid;gap:0.75rem;margin-top:1rem;">
-          <label class="visually-hidden" for="LandingNewsletterEmail-{{ section.id }}">Email address</label>
-          <input id="LandingNewsletterEmail-{{ section.id }}" type="email" name="contact[email]" placeholder="Enter your email" required class="field__input" style="width:100%;padding:1rem;border:1px solid rgba(0,0,0,0.08);border-radius:0.75rem;">
-          <button type="submit" class="button button--primary">Join now</button>
+      <div class="eg-steps-grid">
+        <div class="eg-step">
+          <span class="eg-step-num">01</span>
+          <div class="eg-step-img"><img src="https://images.unsplash.com/photo-1517502884422-41eaead166d4?w=800&q=80" alt="Unbox" loading="lazy"></div>
+          <h3>Unbox.</h3>
+          <p>Lift it out. Already assembled, already ready. No tools or instructions needed.</p>
         </div>
-      {%- endform -%}
+        <div class="eg-step">
+          <span class="eg-step-num">02</span>
+          <div class="eg-step-img"><img src="https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=800&q=80" alt="Pop the legs" loading="lazy"></div>
+          <h3>Pop the legs.</h3>
+          <p>Press the side button — both legs deploy in one motion. Clicks into place stable and locked.</p>
+        </div>
+        <div class="eg-step">
+          <span class="eg-step-num">03</span>
+          <div class="eg-step-img"><img src="https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=800&q=80" alt="Work, lounge, watch" loading="lazy"></div>
+          <h3>Work, lounge, watch.</h3>
+          <p>Set up your laptop, snacks, and a drink. The W-legs lock to your mattress so nothing tips.</p>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <section class="eg-proof">
+    <div class="eg-container">
+      <div class="eg-proof-inner">
+        <div class="eg-proof-rating">
+          <span class="eg-stars">★★★★★</span>
+          <div><span class="eg-proof-num">4.9 / 5</span><span class="eg-proof-label">2,000+ verified reviews</span></div>
+        </div>
+        <div class="eg-proof-divider"></div>
+        <div class="eg-proof-press">
+          <span class="eg-press-label">As seen in</span>
+          <span class="eg-press-badge">Lifehacker</span>
+          <span class="eg-press-badge">Apartment Therapy</span>
+          <span class="eg-press-badge">The Verge</span>
+          <span class="eg-press-badge">Wired</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="eg-section">
+    <div class="eg-container">
+      <div class="eg-reviews-head">
+        <div>
+          <span class="eg-eyebrow">From real buyers</span>
+          <h2 class="eg-h2" style="margin-top:0.5rem;">What loungers <em>(&amp; remote workers)</em> are saying.</h2>
+        </div>
+      </div>
+      <div class="eg-reviews-grid">
+        <div class="eg-review">
+          <div class="eg-review-stars">★★★★★</div>
+          <p class="eg-review-quote">"My laptop hasn't overheated in three weeks of bed work. The vent slots actually work, and I love that it folds flat under my bed when I'm done."</p>
+          <div class="eg-review-author">
+            <div class="eg-review-avatar">SR</div>
+            <div><p class="eg-review-name">Sarah R.</p><p class="eg-review-meta">Verified · Remote worker</p></div>
+          </div>
+        </div>
+        <div class="eg-review">
+          <div class="eg-review-stars">★★★★★</div>
+          <p class="eg-review-quote">"Got the XL for dual monitors and I'm shocked at how stable it is. No wobble, no sinking into the mattress. Best $79 I've spent in years."</p>
+          <div class="eg-review-author">
+            <div class="eg-review-avatar">JK</div>
+            <div><p class="eg-review-name">Jaden K.</p><p class="eg-review-meta">Verified · XL buyer</p></div>
+          </div>
+        </div>
+        <div class="eg-review">
+          <div class="eg-review-stars">★★★★★</div>
+          <p class="eg-review-quote">"I commute, I work, I binge — this thing replaces three separate trays. Folds in one click. Quality is way better than I expected for the price."</p>
+          <div class="eg-review-author">
+            <div class="eg-review-avatar">MT</div>
+            <div><p class="eg-review-name">Marcus T.</p><p class="eg-review-meta">Verified · Daily user</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="eg-section eg-feature">
+    <div class="eg-container">
+      <div class="eg-faq-head">
+        <span class="eg-eyebrow">FAQ</span>
+        <h2 class="eg-h2">Good questions.</h2>
+      </div>
+      <div class="eg-faq-list">
+        <details class="eg-faq-item">
+          <summary class="eg-faq-q">Does it fit over a king-size bed?<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <div class="eg-faq-a">Yes. The XL version is built for king and California king beds. The Standard fits queen and full beds with plenty of room to spare.</div>
+        </details>
+        <details class="eg-faq-item">
+          <summary class="eg-faq-q">How much weight can it hold?<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <div class="eg-faq-a">Designed for laptops, tablets, drinks, and accessories. Rated for up to 20kg of distributed weight on the steel-core models — more than enough for dual monitors and a snack stash.</div>
+        </details>
+        <details class="eg-faq-item">
+          <summary class="eg-faq-q">Is any assembly required?<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <div class="eg-faq-a">No assembly. It pops out of the box ready to use. The hinge mechanism is pre-set — just press the side button and the legs deploy.</div>
+        </details>
+        <details class="eg-faq-item">
+          <summary class="eg-faq-q">How fast does shipping arrive?<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <div class="eg-faq-a">Standard shipping is free over $75 and arrives in 3–5 business days within Australia. Express (1–2 days) is $14.95. Orders before 12pm AEST ship same day.</div>
+        </details>
+        <details class="eg-faq-item">
+          <summary class="eg-faq-q">What's the return process?<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <div class="eg-faq-a">Free returns within 30 days, no questions asked. Request a return label from your account, drop the box at any post office. Refunds hit your card within 5 business days.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="email-capture" class="eg-email">
+    <div class="eg-email-inner">
+      <span class="eg-eyebrow">Join the crew</span>
+      <h2 class="eg-email-title">10% off your <em>first order.</em></h2>
+      <p class="eg-email-sub">Plus early access to new drops and the occasional deal-of-the-week.</p>
+      {%- form 'customer', class: 'eg-email-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" name="contact[email]" class="eg-email-input" placeholder="your@email.com" required>
+        <button type="submit" class="eg-btn">Claim my 10%</button>
+      {%- endform -%}
+      <p class="eg-email-note">No spam. Unsubscribe any time.</p>
+    </div>
+  </section>
+
+  <div class="eg-sticky" id="eg-sticky">
+    <div class="eg-sticky-label">Pop Out Bed Desk<span>Work or lounge, one click</span></div>
+    <a href="#shop" class="eg-btn eg-btn-sm">Shop — from $49</a>
   </div>
-</section>
+</div>
+
+<script>
+  (function(){
+    var modes = document.querySelectorAll('.eg-landing .eg-mode-toggle button');
+    modes.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var mode = btn.dataset.mode;
+        modes.forEach(function(b){ b.classList.toggle('active', b.dataset.mode === mode); b.setAttribute('aria-selected', b.dataset.mode === mode); });
+        document.querySelectorAll('.eg-landing .eg-fv-mode, .eg-landing .eg-fc-mode').forEach(function(el){
+          el.classList.toggle('active', el.dataset.mode === mode);
+        });
+      });
+    });
+    var sticky = document.getElementById('eg-sticky');
+    var hero = document.getElementById('hero');
+    if (sticky && hero) {
+      window.addEventListener('scroll', function(){
+        var heroBottom = hero.getBoundingClientRect().bottom;
+        sticky.classList.toggle('visible', heroBottom < 0);
+      });
+    }
+  })();
+</script>
 
 {% schema %}
 {
   "name": "Everydaygrabs landing page",
   "settings": [
-    {
-      "type": "product",
-      "id": "product",
-      "label": "Featured product"
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero image"
-    }
+    { "type": "product", "id": "product", "label": "Featured product" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" }
   ],
   "presets": [
-    {
-      "name": "Everydaygrabs landing page",
-      "category": "Home page"
-    }
+    { "name": "Everydaygrabs landing page", "category": "Home page" }
   ]
 }
 {% endschema %}
